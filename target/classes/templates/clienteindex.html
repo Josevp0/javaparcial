@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tatto Mania - Galería de Tatuajes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/cliente.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-tattoo"></i> Tatto Mania
+        </div>
+        <div class="navbar-menu">
+            <button class="btn btn-secondary" onclick="location.href='/clientes/logincli'">
+                <i class="fas fa-arrow-left"></i> Volver
+            </button>
+            <button class="btn btn-primary" onclick="location.href='/citas/crear'">
+                <i class="fas fa-calendar-plus"></i> Agendar Cita
+            </button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>Galería de Tatuajes</h1>
+        <div id="tatuajesContainer" class="tatuajes-container"></div>
+    </main>
+
+    <!-- Modal para mostrar detalles del tatuaje -->
+    <div id="tatuajeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImage" src="" alt="Tatuaje">
+            <h2 id="modalTitle"></h2>
+            <p id="modalDescription"></p>
+            <p id="modalPrice"></p>
+            <p id="modalArtist"></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>Información de Contacto</h3>
+                <p><i class="fas fa-phone"></i> +57 3001234567</p>
+                <p><i class="fas fa-envelope"></i> info@tattomania.com</p>
+                <p><i class="fas fa-location-dot"></i> Calle Principal #123, Ciudad</p>
+            </div>
+            <div class="footer-social">
+                <h3>Síguenos</h3>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/tattomania" target="_blank" class="social-link" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/tattomania" target="_blank" class="social-link" title="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@tattomania" target="_blank" class="social-link" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Tatto Mania. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const tatuajesContainer = document.getElementById("tatuajesContainer");
+            const modal = document.getElementById("tatuajeModal");
+            const modalImage = document.getElementById("modalImage");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalDescription = document.getElementById("modalDescription");
+            const modalPrice = document.getElementById("modalPrice");
+            const modalArtist = document.getElementById("modalArtist");
+            const closeBtn = document.querySelector(".close");
+
+            closeBtn.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            window.mostrarTatuaje = (imagen, nombre, descripcion, precio, tatuador) => {
+                modalImage.src = `data:image/jpeg;base64,${imagen}`;
+                modalTitle.textContent = nombre;
+                modalDescription.textContent = `Descripción: ${descripcion}`;
+                modalPrice.textContent = `Precio: $${precio}`;
+                modalArtist.textContent = `Tatuador: ${tatuador}`;
+                modal.style.display = "block";
+            };
+
+            async function cargarTatuajes() {
+                try {
+                    const response = await fetch('/tatuajes');
+                    const tatuajes = await response.json();
+
+                    if (tatuajes.length === 0) {
+                        tatuajesContainer.innerHTML = `<div class="no-data">No hay tatuajes disponibles</div>`;
+                        return;
+                    }
+
+                    tatuajesContainer.innerHTML = tatuajes.map(tatuaje => `
+                        <div class="tatuaje-card" onclick="mostrarTatuaje('${tatuaje.imagen}', '${tatuaje.nombre}', '${tatuaje.descripcion}', '${tatuaje.precio}', '${tatuaje.tatuador}')">
+                            <img src="data:image/jpeg;base64,${tatuaje.imagen}" alt="${tatuaje.nombre}">
+                            <h3>${tatuaje.nombre}</h3>
+                            <p class="precio">$${tatuaje.precio}</p>
+                            <p class="tatuador">Por: ${tatuaje.tatuador}</p>
+                        </div>
+                    `).join('');
+                } catch (error) {
+                    console.error("Error al cargar tatuajes:", error);
+                }
+            }
+
+            cargarTatuajes();
+        });
+    </script>
+</body>
+</html>

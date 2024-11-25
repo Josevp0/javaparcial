@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+	<head>
+	  <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>Registro de Administradores</title>
+	  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+	  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	  <link rel="stylesheet" th:href="@{/css/formulario.css}">
+	</head>
+	<body>
+	<div class="container mt-5 py-4 px-4 rounded shadow" id="form-container">
+	  <h2 class="text-center mb-4 titulo">Registro de Administradores</h2>
+
+	  <!-- Mensajes de alerta -->
+	  <div id="alertContainer" class="mb-4"></div>
+
+	  <!-- Formulario de registro -->
+	  <form id="adminForm" method="post" action="/admin/save">
+	    <div class="row">
+	      <div class="col-md-6 mb-3">
+	        <label for="nombre" class="form-label">Nombre:</label>
+	        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese su nombre" required>
+	      </div>
+	      <div class="col-md-6 mb-3">
+	        <label for="apellido" class="form-label">Apellido:</label>
+	        <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Ingrese su apellido" required>
+	      </div>
+	    </div>
+	    <div class="row">
+	      <div class="col-md-6 mb-3">
+	        <label for="email" class="form-label">Email:</label>
+	        <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email" required>
+	      </div>
+	      <div class="col-md-6 mb-3">
+	        <label for="contraseña" class="form-label">Contraseña:</label>
+	        <input type="password" class="form-control" id="contraseña" name="contraseña" placeholder="Ingrese su contraseña" required>
+	      </div>
+	    </div>
+	    <div class="d-flex justify-content-between mt-4">
+	      <button type="submit" class="btn btn-primary px-4">Registrar</button>
+	      <button type="reset" class="btn btn-secondary px-4" onclick="resetForm()">Limpiar</button>
+	    </div>
+	  </form>
+	  <div class="mb-4 text-end">
+	  	    <a href="/admin/login" class="btn btn-outline-light volver-btn">Volver al Login</a>
+	  	  </div>
+	</div>
+	
+
+<script>
+  document.getElementById('adminForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Evitar la recarga de la página
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const alertContainer = document.getElementById('alertContainer');
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        // Mostrar mensaje de éxito
+        showAlert('Administrador registrado correctamente.', 'success');
+        form.reset(); // Limpiar el formulario
+      } else if (response.status === 409) {
+        // Mostrar mensaje de error si el correo ya está en uso
+        showAlert('El correo ya está en uso. Por favor, intente con otro.', 'warning');
+      } else {
+        // Mostrar mensaje de error genérico
+        const errorMessage = await response.text();
+        showAlert(`Error: ${errorMessage}`, 'danger');
+      }
+    } catch (error) {
+      // Manejar errores de red o de JavaScript
+      showAlert(`Error al registrar el administrador: ${error.message}`, 'danger');
+    }
+  });
+
+  function resetForm() {
+    document.getElementById('adminForm').reset();
+    document.getElementById('alertContainer').innerHTML = ''; // Limpiar alertas
+  }
+
+  function showAlert(message, type) {
+    const alertContainer = document.getElementById('alertContainer');
+    alertContainer.innerHTML = `
+      <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+        ${message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="closeAlert()"></button>
+      </div>
+    `;
+  }
+
+  function closeAlert() {
+    const alertContainer = document.getElementById('alertContainer');
+    alertContainer.innerHTML = '';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tatto Mania - Inicio de Sesión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 style="font-family: 'Permanent Marker', cursive;">Tatto Mania</h1>
+            <p class="tagline" style="font-family: 'Permanent Marker', cursive;">Arte en tu piel</p>
+        </header>
+        <main>
+            <div class="login-box">
+				<h2 style="font-family: 'Playfair Display', serif; font-style: italic;">Inicio de Sesión</h2>
+                <div class="buttons">
+                    <button class="admin" onclick="window.location.href='/admin/login'">
+                        <span class="icon">👑</span>
+                        Administrador
+                    </button>
+                    <button class="tatuador" onclick="window.location.href='/tatuadores/loginta'">
+                        <span class="icon">🎨</span>
+                        Tatuador
+                    </button>
+                    <button class="cliente" onclick="window.location.href='/clientes/logincli'">
+                        <span class="icon">👤</span>
+                        Cliente
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

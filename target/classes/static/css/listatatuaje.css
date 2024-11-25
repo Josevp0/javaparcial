@@ -1,0 +1,226 @@
+:root {
+    --primary-color: #202020;
+    --accent-color: #ffcc00;
+    --text-color: #f0f0f0;
+    --navbar-bg: rgba(0, 0, 0, 0.8);
+    --button-hover: rgba(255, 204, 0, 0.2);
+    --border-color: #ff9900;
+    --heading-color: #ffd700;
+    --card-bg: rgba(0, 0, 0, 0.8);
+    --card-border: #ffcc33;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: url('img/admin1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.navbar {
+    background: var(--navbar-bg);
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.navbar-brand {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-menu {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.navbar-menu li a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.navbar-menu li a:hover {
+    color: var(--accent-color);
+}
+
+.btn-logout {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: var(--accent-color);
+    color: #000;
+}
+
+.container {
+    z-index: 2;
+    padding: 2rem;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.header-section h1 {
+    color: var(--heading-color);
+    margin: 0;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+}
+
+/* Estilo para las tarjetas */
+.tatuajes-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres tarjetas por fila */
+    gap: 1.5rem; /* Espacio entre tarjetas */
+    align-items: stretch;
+}
+
+.tatuaje-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tatuaje-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.tatuaje-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.tatuaje-card h3 {
+    font-size: 1.25rem;
+    color: var(--accent-color);
+    text-align: center;
+    margin: 0.5rem 0;
+}
+
+.tatuaje-card p {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    margin: 0.5rem 1rem;
+}
+
+.tatuaje-card .tatuador {
+    font-style: italic;
+    color: var(--accent-color);
+}
+
+.tatuaje-card button {
+    background: var(--accent-color);
+    color: #000;
+    border: none;
+    border-radius: 0 0 10px 10px;
+    padding: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.tatuaje-card button:hover {
+    background: #ffdb4d;
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--card-border);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--card-border);
+}
+
+.modal-header .btn-close {
+    color: var(--text-color);
+}
+
+.modal-title {
+    color: var(--accent-color);
+}
+
+.modal-body {
+    color: var(--text-color);
+}
+
+.modal-body img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+    border: 1px solid var(--card-border);
+    border-radius: 5px;
+}
+
+/* Asegúrate de que el texto en el modal tenga el mismo estilo que en las tarjetas */
+.modal-body p {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+}
+
+.modal-body p:last-child {
+    font-style: italic;
+    color: var(--accent-color);
+}
+
+/* Responsivo: Cambia el número de columnas según el tamaño */
+@media (max-width: 992px) {
+    .tatuajes-container {
+        grid-template-columns: repeat(2, 1fr); /* Dos tarjetas por fila */
+    }
+}
+
+@media (max-width: 576px) {
+    .tatuajes-container {
+        grid-template-columns: 1fr; /* Una tarjeta por fila */
+    }
+}

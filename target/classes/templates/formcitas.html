@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tatto Mania - Agendar Cita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/cliente.css}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-tattoo"></i> Tatto Mania
+        </div>
+        <div class="navbar-menu">
+            <button class="btn btn-secondary" onclick="location.href='/clientes/clienteindex'">
+                <i class="fas fa-arrow-left"></i> Volver a Galería
+            </button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h1>Agendar Cita</h1>
+        <section class="form-section">
+            <form id="crearCitaForm" class="cita-form">
+                <div class="form-group">
+                    <label for="descripcion">Ingresa tu nombre:</label>
+                    <input type="text" id="descripcion" name="descripcion" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fechaCita">Fecha y Hora de la Cita:</label>
+                    <input type="datetime-local" id="fechaCita" name="fechaCita" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tatuajeId">Tatuaje:</label>
+                    <select id="tatuajeId" name="tatuajeId">
+                        <option value="">Seleccione un tatuaje</option>
+                        <option th:each="tatuaje : ${tatuajes}" th:value="${tatuaje.id}" th:text="${tatuaje.nombre}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tatuadorId">Tatuador:</label>
+                    <select id="tatuadorId" name="tatuadorId">
+                        <option value="">Seleccione un tatuador</option>
+                        <option th:each="tatuador : ${tatuadores}" th:value="${tatuador.id}" th:text="${tatuador.nombre}"></option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Guardar Cita</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>Información de Contacto</h3>
+                <p><i class="fas fa-phone"></i> +57 3001234567</p>
+                <p><i class="fas fa-envelope"></i> info@tattomania.com</p>
+                <p><i class="fas fa-location-dot"></i> Calle Principal #123, Ciudad</p>
+            </div>
+            <div class="footer-social">
+                <h3>Síguenos</h3>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/tattomania" target="_blank" class="social-link" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/tattomania" target="_blank" class="social-link" title="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@tattomania" target="_blank" class="social-link" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Tatto Mania. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("crearCitaForm");
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch('/citas', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        alert("Cita creada exitosamente");
+                        form.reset();
+                    } else {
+                        const error = await response.text();
+                        alert("Error: " + error);
+                    }
+                } catch (error) {
+                    console.error("Error al enviar formulario:", error);
+                    alert("Ocurrió un error inesperado");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
