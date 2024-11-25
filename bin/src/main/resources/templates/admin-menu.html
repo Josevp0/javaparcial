@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            transform: scale(1.05);
+        }
+        .btn-secondary i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <button type="button" class="btn-secondary" onclick="location.href='/admin/login'">
+        <i class="fas fa-arrow-left"></i> Volver
+    </button>
+    <h1>Bienvenido al menú de administración</h1>
+    <button class="btn" onclick="window.location.href='/clientes/ver';">Ver Clientes</button>
+    <button class="btn" onclick="window.location.href='/tatuadores/ver';">Ver Tatuadores</button>
+</div>
+</body>
+</html>
+
+

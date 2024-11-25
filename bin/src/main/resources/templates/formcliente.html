@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear Cliente</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    form {
+      max-width: 400px;
+      background: #f9f9f9;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .btn-secondary {
+      background-color: #95a5a6;
+    }
+
+    .btn-secondary:hover {
+      background-color: #7f8c8d;
+    }
+  </style>
+</head>
+<body>
+<h1>Crear Cliente</h1>
+<form action="/clientes/guardar" method="post">
+  <input type="hidden" id="id" name="id" th:value="${cliente.id}"> <!-- Campo oculto para el ID -->
+
+  <label for="nombre">Nombre:</label>
+  <input type="text" id="nombre" name="nombre" th:value="${cliente.nombre}" required>
+
+  <label for="email">Correo:</label>
+  <input type="email" id="email" name="email" th:value="${cliente.email}" required>
+
+  <label for="contraseña">Contraseña:</label>
+  <input type="password" id="contraseña" name="contraseña" th:value="${cliente.contraseña}" required>
+
+  <button type="submit">Guardar</button>
+  <button type="button" class="btn-secondary" onclick="location.href='/clientes/ver'">Volver</button>
+</form>
+</body>
+</html>
+
+
+
+

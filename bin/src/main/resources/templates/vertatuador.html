@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Tatuadores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        a:hover {
+            background-color: #2980b9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+<h1>Lista de Tatuadores</h1>
+<button type="button" class="btn-secondary" onclick="location.href='/admin/admin-menu'">Volver</button>
+<a href="/tatuadores/crear">Crear Nuevo Tatuador</a>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tatuador : ${tatuadores}">
+        <td th:text="${tatuador.id}"></td>
+        <td th:text="${tatuador.nombre}"></td>
+        <td th:text="${tatuador.email}"></td>
+        <td>
+            <a th:href="@{/tatuadores/editar/{id}(id=${tatuador.id})}">Editar</a>
+            <a th:href="@{/tatuadores/eliminar/{id}(id=${tatuador.id})}"
+               onclick="return confirm('¿Estás seguro de eliminar este tatuador?')">Eliminar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

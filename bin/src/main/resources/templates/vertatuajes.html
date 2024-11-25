@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ver Tatuajes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      color: #2c3e50;
+    }
+
+    .buttons {
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .tatuajes-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .tatuaje-card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .tatuaje-card img {
+      width: 100%;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .tatuaje-card h3 {
+      font-size: 1.2em;
+      margin: 10px 0 5px;
+    }
+
+    .tatuaje-card p {
+      color: #7f8c8d;
+      font-size: 0.9em;
+      margin: 5px 0;
+    }
+
+    .tatuaje-card button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .tatuaje-card button:hover {
+      background-color: #c0392b;
+    }
+
+    .no-data {
+      text-align: center;
+      color: #7f8c8d;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+<button type="button" class="btn-secondary" onclick="location.href='/tatuadores/loginta'">Volver</button>
+<h1>Lista de Tatuajes</h1>
+
+<div class="buttons">
+  <button onclick="location.href='/tatuajes/crear'">Crear Tatuajes</button>
+  <button onclick="location.href='/citas/lista'">Citas Recibidas</button>
+</div>
+
+<div id="tatuajesContainer" class="tatuajes-container"></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+    const tatuajesContainer = document.getElementById("tatuajesContainer");
+
+    async function cargarTatuajes() {
+      try {
+        const response = await fetch('/tatuajes');
+        const tatuajes = await response.json();
+
+        if (tatuajes.length === 0) {
+          tatuajesContainer.innerHTML = `<div class="no-data">No hay tatuajes disponibles</div>`;
+          return;
+        }
+
+        tatuajesContainer.innerHTML = tatuajes.map(tatuaje => `
+          <div class="tatuaje-card">
+            <img src="data:image/jpeg;base64,${tatuaje.imagen}" alt="${tatuaje.nombre}" />
+            <h3>${tatuaje.nombre}</h3>
+            <p>${tatuaje.descripcion}</p>
+            <p>Precio: $${tatuaje.precio}</p>
+            <p class="tatuador">Tatuador: ${tatuaje.tatuador}</p>
+            <button onclick="eliminarTatuaje(${tatuaje.id})">Eliminar</button>
+          </div>
+        `).join('');
+      } catch (error) {
+        console.error("Error al cargar tatuajes:", error);
+      }
+    }
+
+    window.eliminarTatuaje = async (id) => {
+      if (confirm("¿Seguro que deseas eliminar este tatuaje?")) {
+        try {
+          const response = await fetch(`/tatuajes/${id}`, { method: 'DELETE' });
+          if (response.ok) {
+            alert("Tatuaje eliminado exitosamente");
+            cargarTatuajes();
+          } else {
+            alert("Error al eliminar el tatuaje");
+          }
+        } catch (error) {
+          console.error("Error al eliminar tatuaje:", error);
+        }
+      }
+    };
+
+    cargarTatuajes();
+  });
+</script>
+</body>
+</html>
+

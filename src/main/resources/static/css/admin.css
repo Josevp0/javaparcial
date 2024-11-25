@@ -1,0 +1,264 @@
+:root {
+    --primary-color: #202020;
+    --accent-color: #ffcc00; /* Amarillo acorde con el diseño */
+    --text-color: #f0f0f0; /* Blanco suave */
+    --navbar-bg: rgba(0, 0, 0, 0.8); /* Fondo oscuro para la barra de navegación */
+    --button-hover: rgba(255, 204, 0, 0.2); /* Hover amarillo translúcido */
+    --border-color: #ff9900; /* Naranja para bordes */
+    --heading-color: #ffd700; /* Amarillo dorado para encabezados */
+    --card-bg: rgba(0, 0, 0, 0.8); /* Fondo translúcido de las tarjetas */
+    --card-border: #ffcc33; /* Bordes de las tarjetas */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: url('img/admin1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 1s ease-out;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Oscurece ligeramente el fondo */
+    z-index: 1;
+}
+
+/* Barra de navegación centrada */
+.navbar {
+    background: var(--navbar-bg);
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos */
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-brand {
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    text-align: left;
+}
+
+.navbar-menu {
+    flex: 1; /* Ocupa el espacio central */
+    display: flex;
+    justify-content: center; /* Centra horizontalmente los enlaces */
+    gap: 2rem; /* Espaciado entre los enlaces */
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.navbar-menu li a:hover {
+    color: var(--accent-color);
+}
+
+.btn-logout {
+    margin-left: auto; /* Empuja el botón hacia la derecha */
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--text-color);
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background: var(--accent-color);
+    color: #000;
+    transform: scale(1.1);
+}
+
+.container {
+    z-index: 2;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.blog-header {
+    text-align: center; /* Centra el título */
+    margin-bottom: 2rem;
+}
+
+.blog-header h1 {
+    font-size: 3rem;
+    color: var(--heading-color);
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+}
+
+.blog-header p {
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+/* Sección tipo blog en fila */
+.blog-section {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Asegura el centrado vertical */
+    gap: 2rem; /* Espaciado entre tarjetas */
+    flex-wrap: wrap; /* Permite que las tarjetas se muevan a la siguiente fila en pantallas pequeñas */
+}
+
+/* Ajustes para las tarjetas */
+.blog-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 15px;
+    padding: 1.5rem;
+    width: 300px; /* Tamaño fijo para las tarjetas */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center; /* Centra el contenido dentro de la tarjeta */
+}
+
+.blog-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px var(--card-border);
+}
+
+.blog-card h2 {
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 5px rgba(255, 204, 0, 0.7);
+}
+
+.blog-card p {
+    font-size: 1rem;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.blog-card .btn {
+    margin-top: 1rem;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.blog-card .btn:hover {
+    background: var(--button-hover);
+    color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+thead {
+    background: var(--navbar-bg);
+}
+
+thead th {
+    text-align: left;
+    color: var(--accent-color);
+    font-size: 1.1rem;
+    padding: 0.8rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+tbody td {
+    padding: 0.8rem;
+    color: var(--text-color);
+    border-bottom: 1px solid var(--card-border);
+    font-size: 1rem;
+}
+
+tbody tr:nth-child(odd) {
+    background: rgba(255, 204, 0, 0.1); /* Fila con color alternado */
+}
+
+tbody tr:hover {
+    background: rgba(255, 204, 0, 0.2); /* Efecto hover */
+    cursor: pointer;
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--heading-color);
+}
+
+button.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+button.btn-secondary:hover {
+    background: var(--accent-color);
+    color: #000;
+}
+
+
+
+/* Adaptabilidad */
+@media (max-width: 768px) {
+    .blog-section {
+        flex-direction: column; /* Cambia a columna en dispositivos pequeños */
+        align-items: center;
+    }
+
+    .blog-card {
+        width: calc(100% - 2rem); /* Asegura que ocupen todo el ancho disponible */
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

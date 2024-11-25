@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>Gestión de Tatuajes</title>
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+		<link rel="stylesheet" th:href="@{/css/formulariotatuajes.css}">
+	</head>
+	<body>
+	    <nav class="navbar">
+	        <div class="navbar-brand">
+	            <i class="fas fa-tattoo"></i> Panel de Tatuador
+	        </div>
+	        <ul class="navbar-menu">
+	            <li><a href="/tatuajes/crear" class="active">Crear Tatuaje</a></li>
+	            <li><a href="/citas/lista">Citas Recibidas</a></li>
+	        </ul>
+	        <button class="btn-logout" onclick="window.location.href='/';">
+	            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+	        </button>
+	    </nav>
+
+	    <main class="container">
+	        <header>
+	            <h1>Gestión de Tatuajes</h1>
+	        </header>
+	        <section class="form-section">
+	            <h2>Crear Tatuaje</h2>
+	            <form id="crearTatuajeForm" enctype="multipart/form-data">
+	                <div class="form-group">
+	                    <label for="nombre">Nombre:</label>
+	                    <input type="text" id="nombre" name="nombre" required>
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="descripcion">Descripción:</label>
+	                    <textarea id="descripcion" name="descripcion"></textarea>
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="imagen">Imagen:</label>
+	                    <input type="file" id="imagen" name="imagen" accept="image/*">
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="precio">Precio:</label>
+	                    <input type="number" id="precio" name="precio" required min="0">
+	                </div>
+
+	                <div class="form-group">
+	                    <label for="tatuadorId">Tatuador:</label>
+	                    <select id="tatuadorId" name="tatuadorId">
+	                        <option value="">Seleccione un tatuador</option>
+	                        <option th:each="tatuador : ${tatuadores}" th:value="${tatuador.id}" th:text="${tatuador.nombre}"></option>
+	                    </select>
+	                </div>
+
+	                <div class="form-actions">
+	                    <button type="submit" class="btn btn-primary">Guardar</button>
+	                    <button type="button" class="btn btn-secondary" onclick="location.href='/tatuadores/vertatuajes'">Volver</button>
+	                </div>
+	            </form>
+	        </section>
+	    </main>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("crearTatuajeForm");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/tatuajes', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert("Tatuaje creado exitosamente");
+                    form.reset();
+                } else {
+                    alert("Error al crear el tatuaje");
+                }
+            } catch (error) {
+                console.error("Error al enviar formulario:", error);
+            }
+        });
+    });
+</script>
+</body>
+</html>

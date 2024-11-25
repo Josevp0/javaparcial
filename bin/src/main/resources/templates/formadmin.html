@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Administradores</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h2 class="text-center">Gestión de Administradores</h2>
+
+  <!-- Botón para volver al Login -->
+  <div class="mb-4 text-end">
+    <a href="/admin/login" class="btn btn-outline-primary">Volver al Login</a>
+  </div>
+
+  <!-- Formulario de registro/actualización -->
+  <form id="adminForm" method="post" action="/admin/save">
+    <input type="hidden" name="id" id="adminId"> <!-- Campo oculto para ID -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="nombre" class="form-label">Nombre:</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="apellido" class="form-label">Apellido:</label>
+        <input type="text" class="form-control" id="apellido" name="apellido" required>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="contraseña" class="form-label">Contraseña:</label>
+        <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="reset" class="btn btn-secondary" onclick="resetForm()">Limpiar</button>
+  </form>
+
+  <!-- Tabla de administradores -->
+  <h3 class="text-center">Lista de Administradores</h3>
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Email</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody id="adminTableBody">
+    <!-- Aquí se insertarán las filas dinámicamente -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  async function fetchAdministradores() {
+    const response = await fetch('/admin/list');
+    const administradores = await response.json();
+    const adminTableBody = document.getElementById('adminTableBody');
+    adminTableBody.innerHTML = administradores.map(admin => `
+      <tr>
+        <td>${admin.id}</td>
+        <td>${admin.nombre}</td>
+        <td>${admin.apellido}</td>
+        <td>${admin.email}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" onclick="editAdmin(${admin.id})">Editar</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteAdmin(${admin.id})">Eliminar</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  async function deleteAdmin(id) {
+    await fetch(`/admin/${id}`, { method: 'DELETE' });
+    fetchAdministradores();
+  }
+
+  async function editAdmin(id) {
+    const response = await fetch(`/admin/${id}`);
+    const admin = await response.json();
+    document.getElementById('adminId').value = admin.id;
+    document.getElementById('nombre').value = admin.nombre;
+    document.getElementById('apellido').value = admin.apellido;
+    document.getElementById('email').value = admin.email;
+    document.getElementById('contraseña').value = admin.contraseña;
+  }
+
+  function resetForm() {
+    document.getElementById('adminId').value = '';
+  }
+
+  document.addEventListener('DOMContentLoaded', fetchAdministradores);
+</script>
+</body>
+</html>
+

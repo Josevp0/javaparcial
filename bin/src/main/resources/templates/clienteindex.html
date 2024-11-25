@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Tatuajes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 0 10px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .tatuajes-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .tatuaje-card {
+            border: 5px solid;
+            border-radius: 8px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .tatuaje-card img {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .tatuaje-card h3 {
+            font-size: 1.2em;
+            margin: 10px 0 5px;
+            color: #2c3e50;
+        }
+
+        .tatuaje-card p {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #7f8c8d;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .citas-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .citas-button:hover {
+            background-color: #1e8449;
+        }
+    </style>
+</head>
+<body>
+<button type="button" class="btn-secondary" onclick="location.href='/clientes/logincli'">Volver</button>
+<button class="citas-button" onclick="location.href='/citas/crear'">Agendar Cita</button>
+<h1>Lista de Tatuajes</h1>
+
+<div id="tatuajesContainer" class="tatuajes-container"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const tatuajesContainer = document.getElementById("tatuajesContainer");
+
+        // Generar colores aleatorios
+        function generarColorAleatorio() {
+            const letras = "0123456789ABCDEF";
+            let color = "#";
+            for (let i = 0; i < 6; i++) {
+                color += letras[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        async function cargarTatuajes() {
+            try {
+                const response = await fetch('/tatuajes');
+                const tatuajes = await response.json();
+
+                if (tatuajes.length === 0) {
+                    tatuajesContainer.innerHTML = `<div class="no-data">No hay tatuajes disponibles</div>`;
+                    return;
+                }
+
+                tatuajesContainer.innerHTML = tatuajes.map(tatuaje => {
+                    const colorBorde = generarColorAleatorio();
+                    return `
+                        <div class="tatuaje-card" style="border-color: ${colorBorde}">
+                            <img src="data:image/jpeg;base64,${tatuaje.imagen}" alt="${tatuaje.nombre}" />
+                            <h3>${tatuaje.nombre}</h3>
+                            <p>${tatuaje.descripcion}</p>
+                            <p>Precio: $${tatuaje.precio}</p>
+                            <p class="tatuador">Tatuador: ${tatuaje.tatuador}</p>
+                        </div>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error("Error al cargar tatuajes:", error);
+            }
+        }
+
+        cargarTatuajes();
+    });
+</script>
+</body>
+</html>
+
